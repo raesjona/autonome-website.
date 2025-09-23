@@ -21,6 +21,6 @@ jobs:
           pip install openai python-frontmatter GitPython
       - name: Run Autonomos Engine
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          AFFILIATE_LINKS: ${{ secrets.AFFILIATE_LINKS }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  AFFILIATE_LINKS: ${{ secrets.AFFILIATE_LINKS }}
         run: python autonomos.py
