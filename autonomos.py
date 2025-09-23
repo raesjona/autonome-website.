@@ -1,17 +1,18 @@
-# === AUTONOMOS.PY VERSIE 2.0 (DEFINITIEF) ===
+# === AUTONOMOS.PY VERSIE 2.0 (NEDERLANDS) ===
 import openai
 import os
 import random
 from datetime import datetime
 import git
 
+
 # --- CONFIGURATIE ---
 openai.api_key = os.getenv('OPENAI_API_KEY')
 REPO_PATH = '.' 
 POSTS_PATH = '_posts' 
 
+
 # --- LIJST VAN ONDERWERPEN ---
-# Deze lijst kan in de toekomst worden uitgebreid met meer onderwerpen voor je niche
 onderwerpen = [
     "5 manieren om plastic te verminderen in je appartement",
     "Hoe maak je een verticale kruidentuin op je balkon?",
@@ -28,7 +29,9 @@ onderwerpen = [
     "Upcycling: geef oude meubels een nieuw leven in je appartement"
 ]
 
+
 # --- FUNCTIES ---
+
 
 def genereer_artikel(onderwerp):
     """Genereert een artikel met het krachtige GPT-4o model."""
@@ -51,6 +54,7 @@ def genereer_artikel(onderwerp):
         print(f"Fout bij het genereren van artikel: {e}")
         return None
 
+
 def voeg_affiliate_links_in(tekst):
     """Voegt affiliate links in op basis van keywords."""
     if not os.path.exists(POSTS_PATH):
@@ -68,6 +72,7 @@ def voeg_affiliate_links_in(tekst):
             return tekst
     return tekst
 
+
 def publiceer_naar_github(onderwerp, content):
     """Creëert een nieuw post-bestand en commit dit naar GitHub."""
     vandaag = datetime.now()
@@ -76,7 +81,7 @@ def publiceer_naar_github(onderwerp, content):
     bestandsnaam = f"{vandaag.strftime('%Y-%-m-%-d')}-{slug}.md"
     pad = os.path.join(POSTS_PATH, bestandsnaam)
 
-    # Dit is het 'label' waar je eerder naar vroeg
+
     front_matter = f"""---
 layout: post
 title:  "{onderwerp.replace('"', "'")}"
@@ -85,8 +90,10 @@ date:   {vandaag.isoformat()}
 """
     volledige_content = front_matter + content
 
+
     with open(pad, 'w', encoding='utf-8') as f:
         f.write(volledige_content)
+
 
     try:
         repo = git.Repo(REPO_PATH)
@@ -100,6 +107,7 @@ date:   {vandaag.isoformat()}
     except Exception as e:
         print(f"Fout bij het publiceren naar GitHub: {e}")
 
+
 # --- HOOFDSCRIPT DAT ELKE DAG DRAAIT ---
 if __name__ == "__main__":
     gekozen_onderwerp = random.choice(onderwerpen)
@@ -110,3 +118,4 @@ if __name__ == "__main__":
     if artikel_tekst:
         artikel_met_links = voeg_affiliate_links_in(artikel_tekst)
         publiceer_naar_github(gekozen_onderwerp, artikel_met_links)
+
